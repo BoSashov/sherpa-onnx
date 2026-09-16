@@ -66,6 +66,23 @@ jobs:
           cp -v ./build-android-arm64-v8a/install/lib/*.so ./jniLibs/arm64-v8a/
           cp -v ./build-android-arm64-v8a/install/lib/README.md ./jniLibs/arm64-v8a/
           rm -rf  ./build-android-arm64-v8a/
+          - name: Download Bulgarian Dimitar Model
+      run: |
+        mkdir -p android/SherpaOnnxTtsEngine/app/src/main/assets/
+        curl -L -o android/SherpaOnnxTtsEngine/app/src/main/assets/bg_BG-dimitar-medium.onnx https://huggingface.co/rhasspy/piper-voices/resolve/main/bg/bg_BG/dimitar/medium/bg_BG-dimitar-medium.onnx
+        curl -L -o android/SherpaOnnxTtsEngine/app/src/main/assets/bg_BG-dimitar-medium.onnx.json https://huggingface.co/rhasspy/piper-voices/resolve/main/bg/bg_BG/dimitar/medium/bg_BG-dimitar-medium.onnx.json
+
+   - name: Build ARM64 APK with Gradle
+      run: |
+        cd android/SherpaOnnxTtsEngine
+        chmod +x gradlew
+        ./gradlew assembleRelease -PtargetArch=arm64-v8a
+
+    - name: Upload APK Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Dimitar-TTS-ARM64-APK
+        path: android/SherpaOnnxTtsEngine/app/build/outputs/apk/release/*.apk
 
       - name: build android armv7-eabi
         shell: bash
