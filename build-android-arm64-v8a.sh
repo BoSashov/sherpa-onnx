@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+# Create assets directory if it doesn't exist
+mkdir -p android/SherpaOnnxTtsEngine/app/src/main/assets/
+
+# Download the Bulgarian Dimitar voice files directly
+curl -L -o android/SherpaOnnxTtsEngine/app/src/main/assets/bg_BG-dimitar-medium.onnx https://huggingface.co/rhasspy/piper-voices/resolve/main/bg/bg_BG/dimitar/medium/bg_BG-dimitar-medium.onnx
+curl -L -o android/SherpaOnnxTtsEngine/app/src/main/assets/bg_BG-dimitar-medium.onnx.json https://huggingface.co/rhasspy/piper-voices/resolve/main/bg/bg_BG/dimitar/medium/bg_BG-dimitar-medium.onnx.json
 set -ex
 
 # If BUILD_SHARED_LIBS is ON, we use libonnxruntime.so
