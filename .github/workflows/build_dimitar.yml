@@ -19,10 +19,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Android NDK
-        uses: n SHERPA_NDK/setup-android-ndk@v1
-        continue-on-error: true
-
       - name: Build Native C++ Libraries
         run: |
           export ANDROID_NDK=$ANDROID_NDK_LATEST_HOME
