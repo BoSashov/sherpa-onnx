@@ -1,5 +1,3 @@
-YAML
-
 name: Build Bulgarian Dimitar APK
 
 on:
@@ -12,6 +10,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Set up Java JDK
         uses: actions/setup-java@v4
@@ -19,8 +19,18 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Set up Android SDK & NDK
-        uses: actions/setup-android@v3
+      - name: Setup Android NDK
+        uses: n SHERPA_NDK/setup-android-ndk@v1
+        continue-on-error: true
+
+      - name: Build Native C++ Libraries
+        run: |
+          export ANDROID_NDK=$ANDROID_NDK_LATEST_HOME
+          export SHERPA_ONNX_ENABLE_C_API=ON
+          bash build-android-arm64-v8a.sh
+          
+          mkdir -p android/SherpaOnnxTtsEngine/app/src/main/jniLibs/arm64-v8a/
+          cp -v ./build-android-arm64-v8a/install/lib/*.so android/SherpaOnnxTtsEngine/app/src/main/jniLibs/arm64-v8a/
 
       - name: Download Dimitar Voice Model
         run: |
