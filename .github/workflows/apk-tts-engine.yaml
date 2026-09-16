@@ -116,9 +116,10 @@ jobs:
 
           chmod +x build-apk-tts-engine.sh
           mv -v ./build-apk-tts-engine.sh ../..
+          
           mkdir -p android/SherpaOnnxTtsEngine/app/src/main/assets/
-curl -L -o android/SherpaOnnxTtsEngine/app/src/main/assets/bg_BG-dimitar-medium.onnx https://huggingface.co/rhasspy/piper-voices/resolve/main/bg/bg_BG/dimitar/medium/bg_BG-dimitar-medium.onnx
-curl -L -o android/SherpaOnnxTtsEngine/app/src/main/assets/bg_BG-dimitar-medium.onnx.json https://huggingface.co/rhasspy/piper-voices/resolve/main/bg/bg_BG/dimitar/medium/bg_BG-dimitar-medium.onnx.json
+          curl -L -o android/SherpaOnnxTtsEngine/app/src/main/assets/bg_BG-dimitar-medium.onnx https://huggingface.co/rhasspy/piper-voices/resolve/main/bg/bg_BG/dimitar/medium/bg_BG-dimitar-medium.onnx
+          curl -L -o android/SherpaOnnxTtsEngine/app/src/main/assets/bg_BG-dimitar-medium.onnx.json https://huggingface.co/rhasspy/piper-voices/resolve/main/bg/bg_BG/dimitar/medium/bg_BG-dimitar-medium.onnx.json
 
       - name: build APK for TTS engine
         shell: bash
