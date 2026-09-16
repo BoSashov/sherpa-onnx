@@ -1,0 +1,41 @@
+YAML
+
+name: Build Bulgarian Dimitar APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Android SDK & NDK
+        uses: actions/setup-android@v3
+
+      - name: Download Dimitar Voice Model
+        run: |
+          mkdir -p android/SherpaOnnxTtsEngine/app/src/main/assets/
+          curl -L -o android/SherpaOnnxTtsEngine/app/src/main/assets/bg_BG-dimitar-medium.onnx https://huggingface.co/rhasspy/piper-voices/resolve/main/bg/bg_BG/dimitar/medium/bg_BG-dimitar-medium.onnx
+          curl -L -o android/SherpaOnnxTtsEngine/app/src/main/assets/bg_BG-dimitar-medium.onnx.json https://huggingface.co/rhasspy/piper-voices/resolve/main/bg/bg_BG/dimitar/medium/bg_BG-dimitar-medium.onnx.json
+
+      - name: Build ARM64 APK with Gradle
+        run: |
+          cd android/SherpaOnnxTtsEngine
+          chmod +x gradlew
+          ./gradlew assembleRelease
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SherpaTTS-Bulgarian-Dimitar
+          path: android/SherpaOnnxTtsEngine/app/build/outputs/apk/release/*.apk
